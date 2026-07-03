@@ -1,19 +1,17 @@
 // src/main.tsx
 
-// import React from "react";
-// import ReactDOM from "react-dom/client";
-// import App from "./App";
-
-// ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
-
-// src/main.tsx
-
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./components/App";
+import "./index.css";
+import App from "./components/App.tsx";
 
-createRoot(document.getElementById("root") as HTMLElement).render(<App />);
+const element = document.getElementById("root");
+
+if (element !== null) {
+  createRoot(element).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+}
 
