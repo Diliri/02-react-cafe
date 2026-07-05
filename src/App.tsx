@@ -1,5 +1,6 @@
 // src/App.tsx
 import { useState } from "react";
+
 import css from "./App.module.css";
 import CafeInfo from "./components/CafeInfo/CafeInfo.tsx";
 import VoteOptions from "./components/VoteOptions/VoteOptions.tsx";
@@ -26,7 +27,15 @@ export default function App() {
   const resetVotes = () => {
     setVotes({ good: 0, neutral: 0, bad: 0 });
   };
-
+  // console.log("Поточний стан голосів:", votes); перевірка кроку 4
+  
+  // Статистика - це сума властивостей об'єкта votes
+  const totalVotes = votes.good + votes.neutral + votes.bad;
+  // Відсоток позитивних відгуків
+  const positiveRate = totalVotes
+    ? Math.round((votes.good / totalVotes) * 100)
+    : 0;
+  
   return (
     <>
       <div className={css.app}>
@@ -40,8 +49,8 @@ export default function App() {
     
         <VoteStats 
           votes={votes} 
-          totalVotes={0} 
-          positiveRate={0} 
+          totalVotes={totalVotes} 
+          positiveRate={positiveRate} 
         />
       </div>
 
