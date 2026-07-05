@@ -5,7 +5,7 @@ import css from "./App.module.css";
 import CafeInfo from "./components/CafeInfo/CafeInfo.tsx";
 import VoteOptions from "./components/VoteOptions/VoteOptions.tsx";
 import VoteStats from "./components/VoteStats/VoteStats.tsx";
-//import CafeInfo from "./components/CafeInfo/CafeInfo.tsx";
+import Notification from "./components/Notification/Notification.tsx";
 
 import type { Votes, VoteType } from "./types/votes.ts";
 
@@ -28,7 +28,7 @@ export default function App() {
     setVotes({ good: 0, neutral: 0, bad: 0 });
   };
   // console.log("Поточний стан голосів:", votes); перевірка кроку 4
-  
+
   // Статистика - це сума властивостей об'єкта votes
   const totalVotes = votes.good + votes.neutral + votes.bad;
   // Відсоток позитивних відгуків
@@ -36,24 +36,27 @@ export default function App() {
     ? Math.round((votes.good / totalVotes) * 100)
     : 0;
   
-  return (
-    <>
-      <div className={css.app}>
-        <CafeInfo />
-        {/* Передача функції та стану через пропси */}
-        <VoteOptions 
-          onVote={handleVote} 
-          onReset={resetVotes} 
-          canReset={true} 
-        />
-    
+return (
+    <div className={css.app}>
+      <CafeInfo />
+
+      {/* Крок 8: кнопка Reset активна/видима, тільки якщо є хоча б 1 голос */}
+      <VoteOptions 
+        onVote={handleVote} 
+        onReset={resetVotes} 
+        canReset={totalVotes > 0} 
+      />
+
+      {/* Крок 7: Умовний рендеринг за допомогою тернарного оператора */}
+      {totalVotes > 0 ? (
         <VoteStats 
           votes={votes} 
           totalVotes={totalVotes} 
           positiveRate={positiveRate} 
         />
-      </div>
-
-    </>
+      ) : (
+        <Notification />
+      )}
+    </div>
   );
 }
